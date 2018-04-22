@@ -1,0 +1,27 @@
+.news_list{margin:20px auto;width:96%;border-collapse:collapse;}
+.news_list td,.news_list th{border:1px solid #ccc;padding:4px 6px;}
+.news_list th{font:bold 14px/24px 微软雅黑;background:#daf1f9;}
+.news_list td{font:13px/22px arial;}
+#tbody{text-align: center;}
+#tbody .content{
+    width: 10px;
+}
+
+#delbtn{
+    margin-bottom: 10px;
+    margin-right: 22px;
+    float: right;
+}
+#delbtn input{
+    background-color: #daf1f9;
+}
+
+/*操作*/
+.rebut,.edit{
+    cursor: pointer;
+}
+
+/*类型下拉框*/
+#style{
+    margin-left: 20px;
+}
