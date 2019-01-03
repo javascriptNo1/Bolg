@@ -16,16 +16,10 @@ var texts='<header>'+
 				'<a href="#">-&emsp;单页列表</a>'+
 			'</dd>'+
 			'<dt><span class="icon news"></span>文章管理</dt>'+
-			'<dd>'+
+			'<dd style="display: block">'+
 				'<a href="release.html">-&emsp;发布文章</a>'+
 				'<a href="list.html">-&emsp;文章列表</a>'+
 				'<a href="class.html">-&emsp;文章分类</a>'+
-			'</dd>'+
-			'<dt><span class="icon pro"></span>产品管理</dt>'+
-			'<dd>'+
-				'<a href="#">-&emsp;新增产品</a>'+
-				'<a href="#">-&emsp;产品列表</a>'+
-				'<a href="#">-&emsp;产品分类</a>'+
 			'</dd>'+
 			'<dt><span class="icon book"></span>留言管理</dt>'+
 			'<dd>'+
@@ -43,5 +37,5 @@ var texts='<header>'+
 			'</dd>'+
 '</dl>'+
 '</nav>';
-	
+
 	document.write(texts)

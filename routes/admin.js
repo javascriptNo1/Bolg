@@ -1,6 +1,6 @@
-var express = require('express');
-var router = express.Router();
-var mongoose=require('mongoose');
+let express = require('express');
+let router = express.Router();
+let mongoose=require('mongoose');
 
 mongoose.connect('mongodb://127.0.0.1:27017/blog',function (err) {
     if (err){
@@ -12,7 +12,7 @@ mongoose.connect('mongodb://127.0.0.1:27017/blog',function (err) {
 })
 
 // 定义骨架
-var mongoSchema=new mongoose.Schema({
+let mongoSchema=new mongoose.Schema({
     title:String,
     classify:String,
     ctime:String,
@@ -23,27 +23,28 @@ var mongoSchema=new mongoose.Schema({
     password:String
 })
     // 发布模型
-   var arcitlemodel=mongoose.model('release',mongoSchema,'release');
+   let arcitlemodel=mongoose.model('release',mongoSchema,'release');
 
     // 发布用户名和密码模型
-    var usermodel=mongoose.model('usermode',mongoSchema,'usermode');
+    let usermodel=mongoose.model('usermode',mongoSchema,'usermode');
 //接收登录请求和用户名密码
 router.post("/checkuser.php",function(req,res){
-    var user=req.body.username;
-    var password=req.body.password;
+    let user=req.body.username;
+    let password=req.body.password;
     usermodel.find({"user":user,"password":password}).exec(function(err,data){
+        console.log(data)
         if(data.length){
             // 设置用户名的cookie
             res.cookie("user",user);
             res.send("1");
         }
         else{
-            // var a=new usermodel();
-            // a.user='admin';
-            // a.password='18898781335';
-            // a.save(function(err){
-            //
-            // });
+            let a=new usermodel();
+            a.user='admin';
+            a.password='18898781335';
+            a.save(function(err){
+
+            });
             res.send("0");
         }
 
@@ -53,7 +54,7 @@ router.post("/checkuser.php",function(req,res){
 
 //接收判断用户是否登录请求
 router.get("/checklogin.php",function(req,res){
-    var cookies=req.cookies.user;
+    let cookies=req.cookies.user;
     if(cookies){
         res.send('1');
         // res.send("alert('请登录后进行操作');location.href='/admin/pages/login.html';")
@@ -65,9 +66,10 @@ router.get("/checklogin.php",function(req,res){
 
 });
 
+
 //接收退出请求，清除cookie把登录状态变更为未使用
 router.get('/loginout.php',function(req,res){
-    var user=req.cookies.user;
+    let user=req.cookies.user;
     res.clearCookie('user');
     //	根据cookie查询账号数据
     res.send("<script>location.href='/admin/index.html'</script>")
@@ -76,7 +78,7 @@ router.get('/loginout.php',function(req,res){
 // 接收发布文章请求
    router.post('/release.php',function (req,res) {
        // 创建实体
-       var arcitle=new arcitlemodel();
+       let arcitle=new arcitlemodel();
        arcitle.title=req.body.title;        //保存标题
        arcitle.classify=req.body.classify;  //类型
        arcitle.anchor=req.body.anchor;      //锚点
@@ -89,7 +91,7 @@ router.get('/loginout.php',function(req,res){
            }
            else{
                res.send('1');
-               
+
            }
        })
    })
@@ -97,16 +99,10 @@ router.get('/loginout.php',function(req,res){
 // 接收文章修改请求
     router.post('/edit.php',function (req,res) {
         // 获取id
-        var id=req.body.id;
+        let id=req.body.id;
         // 根据id查询数据
         arcitlemodel.findById(id).exec(function(err,data){
-            data.save(function(err){
-                if(err){
-                    throw err;
-                }
-            });
             if(!err){
-                // 创建实体
                 data.title=req.body.title;        //保存标题
                 data.classify=req.body.classify;  //类型
                 data.anchor=req.body.anchor;      //锚点
@@ -114,7 +110,8 @@ router.get('/loginout.php',function(req,res){
                 data.content=req.body['content[]'];         //文章内容
                 data.save(function (err) {
                     if(err){
-                        res.send("0");
+                        res.send('0');
+
                     }
                     else{
                         res.send('1');
@@ -129,37 +126,36 @@ router.get('/loginout.php',function(req,res){
     router.get('/newlist.php',function(req,res){
 
         // 接收传过来的页数,设置默认值
-        var page;
+        let page;
+        let searcharr=[];
     	parseInt(req.query.page)? page=parseInt(req.query.page):page=1;
 
     	// 接收传过来的搜索条件和设置默认值
-        // var searchterm;
+        // let searchterm;
         // req.query.search ? searchterm= req.query.search : searchterm='';
 
     	// 定义存放查询条件对象
-    	var obj={};
+    	let obj={};
 
     	if(req.query.style){
             obj.classify=req.query.style;
     	}
 
     	// 计算该页数需要跳过的数据
-    	var pages=(page-1)*10;
-    	
-    	var length;
+    	let pages=(page-1)*10;
+
+    	let length;
     	arcitlemodel.find(obj).exec(function(err,d){
     	    // 分页页数
     		length=Math.ceil(d.length/10);
 
 
-    		if(req.query.search!=='undefined'){
+    		if(req.query.search!=='undefined' && req.query.search!==''){
                 // 创建正则对象
-                var re=new RegExp(req.query.search);
+                let re=new RegExp(req.query.search);
                 // 创建存放符合搜索条件的数组
-                var searcharr=[];
 
                 for (let i=0;i<d.length;i++){
-
 
                     if(re.test(d[i].title) || re.test(d[i].content) ||re.test(d[i].ctime)) {
                         searcharr.push(d[i]);
@@ -179,8 +175,7 @@ router.get('/loginout.php',function(req,res){
                     }
                     else{
                         // 查询后的分页页数
-                        var sun=Math.ceil(searcharr.length/10);
-
+                        let sun=Math.ceil(searcharr.length/10);
 
                         searcharr.push(sun);
                         res.send(searcharr);
@@ -190,8 +185,8 @@ router.get('/loginout.php',function(req,res){
                 }
         	})
     	})
-    	
-        
+
+
     });
 
 // 接收查询所有分类数量的请求
@@ -201,7 +196,7 @@ router.get('/loginout.php',function(req,res){
         arcitlemodel.find().exec(function(err,data){
 
             // 定义对象存放文章类型数目
-            var style={
+            let style={
                 all:0,
                 css:0,
                 javascript:0,
@@ -255,37 +250,37 @@ router.get('/loginout.php',function(req,res){
 
 //接收删除数据请求
 	router.get('/remove.php',function(req,res){
-		var id=req.query.id;
+		let id=req.query.id;
 		arcitlemodel.findById(id).exec(function(err,data){
 			data.remove();
-			
+
 			res.send('1');
 		})
 	})
 
 //接收查看文章详情请求
 	router.get('/modify.php',function(req,res){
-        var id=req.query.id;
+        let id=req.query.id;
 		arcitlemodel.findById(id).exec(function(err,data){
-			
+
 			if(data!=undefined){
 				data.save(function(err){
-               if(err){
-                   throw err;
-               }
-            });
-			if(!err){
-				res.send(data);
+                   if(err){
+                       throw err;
+                   }
+                });
+                if(!err){
+                    res.send(data);
+                }
 			}
-			}
-		   
+
 		})
 	});
 
     // 接收文章点击事件，点击时增长浏览次数
     router.get('/browse.php',function(req,res){
         // 接收ID
-        var id=req.query.id;
+        let id=req.query.id;
         // 按id查询数据
         arcitlemodel.findById(id).exec(function(err,data){
 			data.browse+=1;
@@ -297,7 +292,6 @@ router.get('/loginout.php',function(req,res){
             if(!err){
                 res.send(data);
             }
-		   
         })
     });
 

@@ -16,18 +16,18 @@
 
 		<!--判断用户是否已经登录-->
 		<script src="checklogin.php" type="text/javascript" charset="utf-8"></script>
-		
+
 		<style>
 			#tbody tr .content{white-space: nowrap;text-overflow:clip;overflow:hidden;width: 100px}
 		</style>
 	</head>
 	<body>
-		
+
 		<script src="js/nva.js"></script>
-		
+
 			<div class="mainbox">
-				
-				
+
+
 				<div class="note">
 					<h4>新闻列表</h4>
 					<div class="search_form">
@@ -45,7 +45,7 @@
 						<option>开发环境</option>
 						<option>其他</option>
 					</select>
-					
+
 					<table class="news_list">
 						<thead>
 							<tr>
@@ -63,23 +63,23 @@
 
 						</tbody>
 					</table>
-					
+
 					<div class="page" id="pages">
 						<a id="fpage">上一页</a>
 						<a id="lpage">下一页</a>
 					</div>
 				</div>
-				
-			
+
+
 			</div>
-		
+
 		<!--数据模板-->
 		<script type="text/html" id="molde">
 			{{each list as v i}}
 				<tr>
 					<td><input type="checkbox"></td>
 					<td>{{v.classify}}</td>
-					<td><a href="modify.html?id={{v._id}}">{{v.title}}</a></td>
+					<td><a target="_blank" href="modify.html?id={{v._id}}">{{v.title}}</a></td>
 					<td>{{v.ctime}}</td>
 					<td>{{v.browse}} 次</td>
 					<td>
@@ -89,7 +89,7 @@
 				</tr>
 			{{/each}}
 		</script>
-		
+
 		<!--分页模板-->
 		<script type="text/html" id="pagemolde">
 			{{each list as v i}}

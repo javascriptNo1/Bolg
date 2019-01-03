@@ -42,6 +42,14 @@
             login()
 		});
 
+        $.get(`checklogin.php`, (data)=> {
+            console.log(data)
+			if (data === '1'){
+                // window.open('/admin/alltopic.html','_self')
+                location.href='/admin/list.html'
+			}
+        })
+
         $('form').on('keydown',function(e){
             if(e.keyCode===13){
                 login()

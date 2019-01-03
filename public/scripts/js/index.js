@@ -39,7 +39,7 @@ $(function(){
                 for (var i=0;i<data.length;i++){
                     // 定义模板
                     var html='<li>' +
-                        ' <h3><a target="_blank" data-id="'+data[i]._id+'" class="articletitle" href="article.html?id='+data[i]._id+'">'+data[i].title+'</a></h3>' +
+                        ' <h3><a data-id="'+data[i]._id+'" class="articletitle" href="article.html?id='+data[i]._id+'">'+data[i].title+'</a></h3>' +
                         '<div class="content">'+data[i].content+'</div>' +
                         '<p class="wlistfooer">' +
                         '<span class="style">' +
@@ -192,7 +192,10 @@ $(function(){
        if(e.keyCode===13){
            // 获取输入框的值
            var search=$(this).val();
-
+            if (search===''){
+                alert('关键字不能为空')
+                return
+            }
            // 获取当前类型
            var style=$('.list-group-item.active').data('style');
 
@@ -210,7 +213,10 @@ $(function(){
     $('.searchbut').on('click',function(){
         // 获取输入框的值
         var search=$('#search').val();
-
+        if (search===''){
+            alert('关键字不能为空')
+            return
+        }
         // 获取当前类型
         var style=$('.list-group-item.active').data('style');
 

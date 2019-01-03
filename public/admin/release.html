@@ -5,7 +5,7 @@
 		<title>后台管理系统</title>
 		<link href="images/index.css" type="text/css" rel="stylesheet"/>
 		<script src="images/jquery.js"></script>
-		
+
 		<script type="text/javascript" charset="utf-8" src="ueditor/ueditor.config.js"></script>
     <script type="text/javascript" charset="utf-8" src="ueditor/ueditor.all.min.js"> </script>
     <script type="text/javascript" charset="utf-8" src="ueditor/lang/zh-cn/zh-cn.js"> </script>
@@ -17,19 +17,25 @@
         div{
             width:100%;
         }
-
+		.anchorbox{
+			width: 100%;
+		}
+		.anchorbox .titletd{
+			/*float: left;*/
+			/*display: inline-block;*/
+		}
     </style>
-    
+
 	</head>
 	<body>
-		
+
 		<script src="js/nva.js"></script>
-		
+
 			<div class="mainbox">
-				
-				
-				
-				
+
+
+
+
 				<div class="note">
 					<h4>发表文章</h4>
 					<form action="" method="post">
@@ -53,32 +59,26 @@
 									</select>
 								</td>
 							</tr>
+							<tr v-for="(itme,index) in arr" class="anchorbox">
+								<td>文章锚点</td>
+								<td class="titletd" >
+									标题：<input v-model="itme.anchortitle" type="text" name="title" class="anchortitle"/>
+									<input @click="ondel" :data-id="itme.anchor" class="del" type="button" value="删除标题">
+								</td>
+							</tr>
 							<tr>
 								<td>锚点操作</td>
 								<td>
-									<input id="anchorbnt" type="button" value="增加锚点">
+									<input id="anchorbnt2" type="button" value="添加标题">
 								</td>
 							</tr>
-							<tr class="anchorbox">
-								<td>文章锚点</td>
-								<td>
-									锚点id:<input type="text" name="title" class="anchor"/>
-									锚点标题：<input type="text" name="title" class="anchortitle"/>
-									<input class="del" type="button" value="删除锚点">
-								</td>
-							</tr>
-
 
 							<tr class="contentbox">
 								<td>文章内容：</td>
 								<td>
 									<div>
-    
-									    <script id="editor" type="text/plain" style="width:900px;height:500px;">
-									    	
-									    </script>
+										<script id="editor" type="text/plain" style="width:900px;height:400px;"></script>
 									</div>
-									
 								</td>
 							</tr>
 							<tr>
@@ -90,12 +90,13 @@
 				</div>
 			</div>
 		</section>
-		
+
 		<!--<script type="text/javascript">
 			$("#btn").on('click',function () {
 				console.log('aaa');
 			})
 		</script>-->
+										<script src="js/vue.js"></script>
 		 <script src="js/release.js" type="text/javascript" charset="utf-8"></script>
 	</body>
 </html>
