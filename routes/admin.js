@@ -49,12 +49,12 @@ router.post("/checkuser.php",function(req,res){
         }
         else{
             let a=new usermodel();
-            a.user='admin';
-            a.password='18898781335';
+            a.user=user;
+            a.password=password;
             a.save(function(err){
-
+                res.send("0");
             });
-            res.send("0");
+
         }
 
     });
