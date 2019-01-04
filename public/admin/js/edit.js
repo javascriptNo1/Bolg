@@ -4,7 +4,8 @@ $(function(){
 		'el':'.mainbox',
 		data:{
 			arr:[],
-			i:0
+			i:0,
+            Enclosure:[],
 		},
 		mounted(){
 			let _this = this
@@ -42,6 +43,7 @@ $(function(){
                 var title=$("#title").val(); //获取标题
                 var classify=$("#classify").val(); //获取类型
                 var anchor=JSON.stringify(_this.arr);	//获取锚点
+                var Enclosure=JSON.stringify(_this.Enclosure);	//附件
                 var content=getContent();			//获取内容
 
                 $.post('edit.php',{
@@ -49,7 +51,8 @@ $(function(){
                     "title":title,
                     "classify":classify,
                     "anchor":anchor,
-                    'content':content
+                    'content':content,
+                    'enclosure':Enclosure
                 },function (data) {
                     if(data==1){
                         alert('修改成功')
@@ -70,6 +73,7 @@ $(function(){
             //建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例
 
             var ue = UE.getEditor('editor');
+
             function getContent() {
                 var arr = [];
 //      arr.push("使用editor.getContent()方法可以获得编辑器的内容");
@@ -106,6 +110,10 @@ $(function(){
                 //回显锚点
                 _this.arr = JSON.parse(ditedata.anchor[0])
                 _this.i = JSON.parse(ditedata.anchor[0]).length
+
+                //回显附件
+                UE.Enclosure = JSON.parse(ditedata.enclosure[0])
+                _this.Enclosure = UE.Enclosure
             });
 		},
         methods:{
@@ -115,8 +123,16 @@ $(function(){
                         this.arr.splice(i,1)
                     }
                 })
+            },
+            ondelEnclosure(e){
+                let index = e.target.getAttribute('data-index')
+                let url = e.target.getAttribute('data-url')
+                $.get('/admin/removeenclosure.php?fileurl='+url,(data)=>{
+                    this.Enclosure.splice(index,1)
+                });
             }
-        }
+
+        },
 	})
 
 

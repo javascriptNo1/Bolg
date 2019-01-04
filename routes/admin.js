@@ -1,6 +1,7 @@
 let express = require('express');
 let router = express.Router();
 let mongoose=require('mongoose');
+let fs = require('fs');
 
 mongoose.connect('mongodb://127.0.0.1:27017/blog',function (err) {
     if (err){
@@ -11,7 +12,7 @@ mongoose.connect('mongodb://127.0.0.1:27017/blog',function (err) {
     }
 })
 
-// 定义骨架
+// 定义文章骨架
 let mongoSchema=new mongoose.Schema({
     title:String,
     classify:String,
@@ -19,14 +20,22 @@ let mongoSchema=new mongoose.Schema({
     content:String,
     browse:Number,
     anchor:Array,
+    enclosure:Array,
+})
+
+// 定义用户账号骨架
+let usermongoSchema=new mongoose.Schema({
     user:String,
     password:String
 })
+
     // 发布模型
    let arcitlemodel=mongoose.model('release',mongoSchema,'release');
 
     // 发布用户名和密码模型
-    let usermodel=mongoose.model('usermode',mongoSchema,'usermode');
+    let usermodel=mongoose.model('usermode',usermongoSchema,'usermode');
+
+
 //接收登录请求和用户名密码
 router.post("/checkuser.php",function(req,res){
     let user=req.body.username;
@@ -82,6 +91,7 @@ router.get('/loginout.php',function(req,res){
        arcitle.title=req.body.title;        //保存标题
        arcitle.classify=req.body.classify;  //类型
        arcitle.anchor=req.body.anchor;      //锚点
+       arcitle.enclosure=req.body.enclosure;      //附件
        arcitle.ctime=new Date().toLocaleDateString(); //时间
        arcitle.content=req.body['content[]'];         //文章内容
        arcitle.browse=0;                    //浏览次数
@@ -106,6 +116,7 @@ router.get('/loginout.php',function(req,res){
                 data.title=req.body.title;        //保存标题
                 data.classify=req.body.classify;  //类型
                 data.anchor=req.body.anchor;      //锚点
+                data.enclosure=req.body.enclosure;   //附件
                 data.ctime=new Date().toLocaleDateString(); //时间
                 data.content=req.body['content[]'];         //文章内容
                 data.save(function (err) {
@@ -257,6 +268,19 @@ router.get('/loginout.php',function(req,res){
 			res.send('1');
 		})
 	})
+
+//接收删除文章配件请求
+router.get('/removeenclosure.php',function(req,res){
+    let fileurl=req.query.fileurl;
+    fs.unlink(__dirname + '\\..\\public\\'+fileurl,function(err){
+        if(err){
+            console.log(err);
+            res.send('0')
+        }else{
+            res.send('1')
+        }
+    });
+})
 
 //接收查看文章详情请求
 	router.get('/modify.php',function(req,res){

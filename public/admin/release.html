@@ -24,6 +24,13 @@
 			/*float: left;*/
 			/*display: inline-block;*/
 		}
+		.enclosure span{
+			margin-left: 5%;
+		}
+		.enclosure span input{
+			margin-left: 2%;
+			width: 80px;
+		}
     </style>
 
 	</head>
@@ -33,10 +40,7 @@
 
 			<div class="mainbox">
 
-
-
-
-				<div class="note">
+		<div class="note">
 					<h4>发表文章</h4>
 					<form action="" method="post">
 						<table class="news_form">
@@ -72,7 +76,15 @@
 									<input id="anchorbnt2" type="button" value="添加标题">
 								</td>
 							</tr>
-
+							<tr>
+								<td>附件</td>
+								<td class="enclosure">
+									<span v-for="(itme,index) in Enclosure">
+										<a :href="itme">附件{{index+1}}</a>
+										<input :data-url="itme" value="删除" type="button" :data-index="index" @click="ondelEnclosure"/>
+									</span>
+								</td>
+							</tr>
 							<tr class="contentbox">
 								<td>文章内容：</td>
 								<td>
@@ -99,4 +111,5 @@
 										<script src="js/vue.js"></script>
 		 <script src="js/release.js" type="text/javascript" charset="utf-8"></script>
 	</body>
+
 </html>

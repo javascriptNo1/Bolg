@@ -23,6 +23,13 @@
         div{
             width:100%;
         }
+		.enclosure span{
+			margin-left: 5%;
+		}
+		.enclosure span input{
+			margin-left: 2%;
+			width: 80px;
+		}
     </style>
 
 	</head>
@@ -70,6 +77,15 @@
 								<td>锚点操作</td>
 								<td>
 									<input id="anchorbnt2" type="button" value="添加标题">
+								</td>
+							</tr>
+							<tr>
+								<td>附件</td>
+								<td class="enclosure">
+									<span v-for="(itme,index) in Enclosure">
+										<a :href="itme">附件{{index+1}}</a>
+										<input :data-url="itme" value="删除" type="button" :data-index="index" @click="ondelEnclosure"/>
+									</span>
 								</td>
 							</tr>
 							<tr class="contentbox">

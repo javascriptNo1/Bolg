@@ -263,8 +263,8 @@ $(function(){
         }
         else {
             $('.list-group').css('right','0');
+            $('#showbut').css('right','-10%');
         }
-
     });
 
     // $('.cr,.footer').on('click',function(){
@@ -273,6 +273,7 @@ $(function(){
 
     $('.cr,.footer').on('click',function(){
         $('.list-group').css('right','-50%');
+        $('#showbut').css('right','0');
     });
 
 //     //移动端的touch触摸交互

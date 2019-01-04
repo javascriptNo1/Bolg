@@ -24,7 +24,7 @@
     right: -50%;
     width: 35%;
     position: fixed;
-    transition: right 1s;
+    transition: right 0.5s;
   }
   .le-min .le-content .cf #showbut {
     z-index: 99999;
@@ -33,6 +33,7 @@
     top: 30%;
     right: 0;
     padding: 11px 4px;
+    transition: right 0.5s;
   }
 }
 .le-min .le-content .cr #wlist {

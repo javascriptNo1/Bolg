@@ -4,7 +4,8 @@ $(function(){
 		'el':'.news_form',
 		data:{
 			arr:[],
-			i:0
+			i:0,
+            Enclosure:[],
 		},
 		mounted(){
             $('#anchorbnt2').on('click', ()=>{
@@ -31,6 +32,9 @@ $(function(){
                 }
             });
 
+            // 关联富文本的附件
+            UE.Enclosure = []
+            this.Enclosure = UE.Enclosure
 
 			// 提交表单数据
             $("#btn").on('click', ()=> {
@@ -38,13 +42,15 @@ $(function(){
                 // 将数组转成字符串
                 var title=$("#title").val(); //获取标题
                 var classify=$("#classify").val(); //获取类型
-                var anchor=JSON.stringify(this.arr);; 					//获取锚点
+                var anchor=JSON.stringify(this.arr); //获取锚点
+                var Enclosure=JSON.stringify(this.Enclosure);	//附件
                 var content=getContent();			//获取内容
                 $.post('release.php',{
                     "title":title,
                     "classify":classify,
                     "anchor":anchor,
-                    'content':content
+                    'content':content,
+                    'enclosure':Enclosure
                 },function (data) {
                     if(data==1){
                         alert('发布成功')
@@ -69,12 +75,6 @@ $(function(){
                 return arr;
 //      alert(arr.join("\n"));
             }
-//			var data=getContent();
-//	    	$.post('/save_content.html',{'con':data},function(data){
-//	    		if(data){
-//	    			alert('保存成功');
-//	    		}
-//	    	})
 		},
 		methods:{
             ondel(e){
@@ -83,7 +83,14 @@ $(function(){
                         this.arr.splice(i,1)
 					}
 				})
-			}
+			},
+            ondelEnclosure(e){
+                let index = e.target.getAttribute('data-index')
+                let url = e.target.getAttribute('data-url')
+                $.get('/admin/removeenclosure.php?fileurl='+url,(data)=>{
+                    this.Enclosure.splice(index,1)
+                });
+            }
 		}
 	})
 });

@@ -24,12 +24,20 @@ $(function(){
             // 循环添加文章锚点的html代码
             var html='';
             for(let i=0;i<arr.length;i++){
-
                 html+='<a href="#'+arr[i].anchor+'"> <li data-id="'+arr[i].anchor+'" class="list-group-item '+arr[i].anchor+'">'+arr[i].anchortitle+'</li></a>';
             }
-
             // 输出到页面相应位置
             $('.anchorul').append(html);
+
+            // 接收附件数组
+            var enclosure=JSON.parse(data.enclosure[0]);
+            // 循环添加文章锚点的html代码
+            var htmlenclosure='';
+            for(let i=0;i<enclosure.length;i++){
+                htmlenclosure+='<a href="'+enclosure[i]+'"> <li data-id="'+enclosure[i]+'" class="list-group-item">附件'+(i+1)+'</li></a>';
+            }
+            // 输出到页面相应位置
+            $('.enclosure').append(htmlenclosure);
 
         });
     }
@@ -41,6 +49,7 @@ $(function(){
         }
         else {
             $('.anchorboxmax').css('right','0');
+            $('#showbut').css('right','-10%');
         }
 
     });
@@ -49,6 +58,7 @@ $(function(){
     $('.cr,.footer').on('click',function(){
         if($('.anchorboxmax').css('right')==='0px'){
             $('.anchorboxmax').css('right','-50%');
+            $('#showbut').css('right','0');
         }
 
     });
@@ -130,7 +140,6 @@ $(function(){
         $('body,html').animate({scrollTop:top},250,function () {
             state=1;
         }); //点击按钮让其回到页面顶部
-
 
 
     });
