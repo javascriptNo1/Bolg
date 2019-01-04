@@ -54,7 +54,6 @@ router.post("/checkuser.php",function(req,res){
             a.save(function(err){
                 res.send("0");
             });
-
         }
 
     });
@@ -263,9 +262,23 @@ router.get('/loginout.php',function(req,res){
 	router.get('/remove.php',function(req,res){
 		let id=req.query.id;
 		arcitlemodel.findById(id).exec(function(err,data){
-			data.remove();
 
-			res.send('1');
+            let fileurl = JSON.parse(data.enclosure[0])
+            for (let i=0;i<fileurl.length;i++){
+                fs.unlink(__dirname + '\\..\\public\\'+fileurl[i],function(err){
+                    if(err){
+                        console.log(err);
+                    }
+                });
+            }
+            data.remove(function (err) {
+                if(err){
+                    res.send("0");
+                }
+                else{
+                    res.send('1');
+                }
+            });
 		})
 	})
 
