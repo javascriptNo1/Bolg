@@ -41,7 +41,6 @@ router.post("/checkuser.php",function(req,res){
     let user=req.body.username;
     let password=req.body.password;
     usermodel.find({"user":user,"password":password}).exec(function(err,data){
-        console.log(data)
         if(data.length){
             // 设置用户名的cookie
             res.cookie("user",user);
@@ -262,15 +261,16 @@ router.get('/loginout.php',function(req,res){
 	router.get('/remove.php',function(req,res){
 		let id=req.query.id;
 		arcitlemodel.findById(id).exec(function(err,data){
-
-            let fileurl = JSON.parse(data.enclosure[0])
-            for (let i=0;i<fileurl.length;i++){
-                fs.unlink(__dirname + '\\..\\public\\'+fileurl[i],function(err){
-                    if(err){
-                        console.log(err);
-                    }
-                });
-            }
+            if (data.enclosure.length !== 0){
+                let fileurl = JSON.parse(data.enclosure[0])
+                for (let i=0;i<fileurl.length;i++){
+                    fs.unlink(__dirname + '\\..\\public\\'+fileurl[i],function(err){
+                        if(err){
+                            console.log(err);
+                        }
+                    });
+                }
+            } 
             data.remove(function (err) {
                 if(err){
                     res.send("0");
