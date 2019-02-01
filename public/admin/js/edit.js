@@ -41,10 +41,18 @@ $(function(){
                 // 将数组转成字符串
                 var id=_id;					 //获取id
                 var title=$("#title").val(); //获取标题
+				if(title === ''){
+					alert('标题不能为空')
+					return;
+				}
                 var classify=$("#classify").val(); //获取类型
                 var anchor=JSON.stringify(_this.arr);	//获取锚点
                 var Enclosure=JSON.stringify(_this.Enclosure);	//附件
                 var content=getContent();			//获取内容
+				if(content[0] === ''){
+					alert('内容不能为空')
+					return;
+				}
 				let imgurl = []						//图片地址
 				let dom = document.createElement('p')
 				dom.innerHTML = content[0];
