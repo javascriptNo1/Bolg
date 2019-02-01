@@ -21,6 +21,7 @@ let mongoSchema=new mongoose.Schema({
     browse:Number,
     anchor:Array,
     enclosure:Array,
+	imgurl:Array
 })
 
 // 定义用户账号骨架
@@ -93,6 +94,7 @@ router.get('/loginout.php',function(req,res){
        arcitle.ctime=new Date().toLocaleDateString(); //时间
        arcitle.content=req.body['content[]'];         //文章内容
        arcitle.browse=0;                    //浏览次数
+	   arcitle.imgurl = JSON.parse(req.body.imgurl) //图片
        arcitle.save(function (err) {
            if(err){
                res.send("0");
@@ -117,6 +119,7 @@ router.get('/loginout.php',function(req,res){
                 data.enclosure=req.body.enclosure;   //附件
                 data.ctime=new Date().toLocaleDateString(); //时间
                 data.content=req.body['content[]'];         //文章内容
+				data.imgurl = JSON.parse(req.body.imgurl) //图片
                 data.save(function (err) {
                     if(err){
                         res.send('0');
@@ -261,6 +264,7 @@ router.get('/loginout.php',function(req,res){
 	router.get('/remove.php',function(req,res){
 		let id=req.query.id;
 		arcitlemodel.findById(id).exec(function(err,data){
+			//删除文章配件
             if (data.enclosure.length !== 0){
                 let fileurl = JSON.parse(data.enclosure[0])
                 for (let i=0;i<fileurl.length;i++){
@@ -271,6 +275,17 @@ router.get('/loginout.php',function(req,res){
                     });
                 }
             } 
+			//删除文章图片
+			 if (data.imgurl.length !== 0){
+				let fileurl = data.imgurl
+				for (let i=0;i<fileurl.length;i++){
+					fs.unlink(__dirname + '\\..\\public\\admin\\img\\ueditor\\'+fileurl[i],function(err){
+						if(err){
+							console.log(err);
+						}
+					});
+				}
+			} 
             data.remove(function (err) {
                 if(err){
                     res.send("0");

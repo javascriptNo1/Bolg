@@ -45,14 +45,21 @@ $(function(){
                 var anchor=JSON.stringify(_this.arr);	//获取锚点
                 var Enclosure=JSON.stringify(_this.Enclosure);	//附件
                 var content=getContent();			//获取内容
-
+				let imgurl = []						//图片地址
+				let dom = document.createElement('p')
+				dom.innerHTML = content[0];
+				let img  = jQuery(dom).find('img')
+				img.each((index,itme)=>{
+					imgurl.push(itme.src.split('/')[itme.src.split('/').length-1])
+				})
                 $.post('edit.php',{
                     "id":id,
                     "title":title,
                     "classify":classify,
                     "anchor":anchor,
                     'content':content,
-                    'enclosure':Enclosure
+                    'enclosure':Enclosure,
+					"imgurl":JSON.stringify(imgurl)
                 },function (data) {
                     if(data==1){
                         alert('修改成功')
